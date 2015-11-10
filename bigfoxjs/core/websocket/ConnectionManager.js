@@ -14,10 +14,10 @@ goog.require('bigfox.core.config.Config');
 goog.require('bigfox.core.WebSocketClientHandler');
 
 bigfox.core.ConnectionManager = function (options) {
-    bigfox.core.ConnectionManager.base(this, 'constructor');
+    //bigfox.core.ConnectionManager.base(this, 'constructor');
     this.init();
 }
-goog.inherits(bigfox.core.ConnectionManager, goog.events.EventTarget);
+//goog.inherits(bigfox.core.ConnectionManager, goog.events.EventTarget);
 goog.addSingletonGetter(bigfox.core.ConnectionManager);
 
 
