@@ -5,6 +5,7 @@
 goog.provide('bigfox.core.util.BFUtil');
 
 goog.require('goog.log');
+goog.require('goog.array');
 goog.require('goog.json');
 
 goog.require('bigfox.core.base.BaseMessage');
@@ -321,7 +322,7 @@ bigfox.core.util.BFUtil.prototype.getPropertyPrefix = function (propertyType) {
             return key;
         }
     }
-    return '0x00' //NULL;
+    return bigfox.core.util.BFUtil.NULL //NULL;
 }
 
 /**
@@ -411,13 +412,14 @@ bigfox.core.util.BFUtil.prototype.readArrayObject = function (data, opt_offset, 
  */
 bigfox.core.util.BFUtil.prototype.write = function (baseMessage) {
     "use strict";
-
-    var buffer = [];
-    //write header
-    buffer = this.writeHeaderToByteArray(baseMessage, buffer);
     //write content
-    buffer = this.writeContentToByteArray(baseMessage, buffer);
-    return new Uint8Array(buffer);
+    var contentBuffer = this.writeContentToByteArray(baseMessage);
+    baseMessage.length = contentBuffer + 24;
+
+    //write header
+    var buffer = this.writeHeaderToByteArray(baseMessage);
+    buffer = buffer.concat(contentBuffer);
+    return buffer;
 }
 
 bigfox.core.util.BFUtil.prototype.writeHeaderToByteArray = function (baseMessage, opt_outputStream) {
@@ -448,10 +450,18 @@ bigfox.core.util.BFUtil.prototype.writeHeaderToByteArray = function (baseMessage
 bigfox.core.util.BFUtil.prototype.writeContentToByteArray = function (baseMessage, opt_outputStream) {
     var buffer = opt_outputStream || [];
 
-    var count = Object.keys(baseMessage).length;
-
     //write property length
-    buffer = this.writeByte(count - 8, buffer);
+    console.log(' base message: ', baseMessage);
+
+    var keys = Object.keys(baseMessage);
+
+    //todo: need to calculate
+    var count = goog.array.count(Object.keys(baseMessage),function(el,index,arr){
+        var prefix = el.substr(0, 4);
+        //var propertyName = key.substr(4);
+        return this.getPropertyPrefix(prefix) != bigfox.core.util.BFUtil.NULL;
+    }, this);
+    buffer = this.writeByte(count, buffer);
 
     for (var key in baseMessage) {
         var prefix = key.substr(0, 4);
@@ -459,7 +469,7 @@ bigfox.core.util.BFUtil.prototype.writeContentToByteArray = function (baseMessag
         var val = baseMessage[key];      
         
 
-        if (PrefixMapping[prefix]) {
+        if (PrefixMapping[prefix] && PrefixMapping[prefix] != bigfox.core.util.BFUtil.NULL ) {
             //write property name
             buffer = this.writeString(propertyName, buffer);
             //write property type
@@ -620,7 +630,7 @@ bigfox.core.util.BFUtil.prototype.writeChar = function (char, opt_buffer) {
 bigfox.core.util.BFUtil.prototype.writeString = function (str, opt_buffer) {
     "use strict";
     var buffer = opt_buffer || [];
-    var strBuffer = this.stringToUtf8ByteArray(str);
+    var strBuffer = goog.crypt.stringToUtf8ByteArray(str);
     //adds 2 bytes buffer length
     buffer = this.writeShort(strBuffer.length, buffer);
     buffer = buffer.concat(strBuffer);
