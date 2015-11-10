@@ -6,14 +6,18 @@
 goog.provide('bigfox.core.base.CSClientInfo');
 
 goog.require('goog.log');
+goog.require('goog.crypt');
 
+goog.require('bigfox.core.base.MessageOut');
 goog.require('bigfox.core.base.MessageIn');
 goog.require('bigfox.core.entity.ClientInfo');
+goog.require('bigfox.core.util.BFUtil');
+
 
 goog.require('bigfox.core.ConnectionManager');
 
-bigfox.core.base.CSClientInfo = function(tag, name, isCore){
-    bigfox.core.base.CSClientInfo.base(this,'constructor');
+bigfox.core.base.CSClientInfo = function (tag, name, isCore) {
+    bigfox.core.base.CSClientInfo.base(this, 'constructor', tag, name, isCore);
 
     this.isCore = true;
     this.tag = CS_CLIENT_INFO;
@@ -21,14 +25,16 @@ bigfox.core.base.CSClientInfo = function(tag, name, isCore){
 
     var connectionManager = bigfox.core.ConnectionManager.getInstance();
 
-    this._clientInfo = new bigfox.core.entity.ClientInfo();
-    this._clientInfo.setDevice(bigfox.core.entity.ClientInfo.DEVICE_WEB);
-    this._clientInfo.setZone('BigFoxServerChatExample');
-    this._clientInfo.setIMEI("");
-    this._clientInfo.setSessionId(connectionManager.getSessionId());
+    var _clientInfo = new bigfox.core.entity.ClientInfo();
+    _clientInfo.setDevice(bigfox.core.entity.ClientInfo.DEVICE_WEB);
+    _clientInfo.setZone('BigFoxServerChatExample');
+    _clientInfo.setIMEI("");
+    _clientInfo.setSessionId(connectionManager.getSessionId());
+    _clientInfo.setVersion('1.0.0.0');
+    _clientInfo.setMetadata("Metadata");
+    this.setClientInfo(_clientInfo);
 
-    //this._clientInfo.setVersion(version);
-    //this._clientInfo.setMetadata("Metadata");
+    //this._bfUtil = bigfox.core.util.BFUtil.getInstance();
 }
 
 goog.inherits(bigfox.core.base.CSClientInfo, bigfox.core.base.MessageOut);
@@ -37,8 +43,22 @@ goog.inherits(bigfox.core.base.CSClientInfo, bigfox.core.base.MessageOut);
  * @type {bigfox.core.entity.ClientInfo || null || undefined}
  * @private
  */
-bigfox.core.base.CSClientInfo.prototype._clientInfo = undefined;
+//bigfox.core.base.CSClientInfo.prototype._clientInfo = undefined;
 
-bigfox.core.base.CSClientInfo.prototype.send = function(socket){
+bigfox.core.base.CSClientInfo.prototype._bfUtil = bigfox.core.util.BFUtil.getInstance();
+
+bigfox.core.base.CSClientInfo.prototype.setClientInfo = function (clientInfo) {
+    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.OBJECT);
+    if (clientInfo instanceof  bigfox.core.entity.ClientInfo) {
+        this[propertyPrefix + 'clientInfo'] = clientInfo;
+    }
+}
+
+bigfox.core.base.CSClientInfo.prototype.getClientInfo = function () {
+    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.OBJECT);
+    return this[propertyPrefix + 'clientInfo'];
+}
+
+bigfox.core.base.CSClientInfo.prototype.send = function (socket) {
 
 }
