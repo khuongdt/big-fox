@@ -13,7 +13,7 @@ goog.require('bigfox.core.util.BFUtil');
 
 
 bigfox.core.base.MessageOut = function (tag, name, isCore) {
-    bigfox.core.base.MessageIn.base(this, 'constructor',tag, name, isCore);
+    bigfox.core.base.MessageOut.base(this, 'constructor',tag, name, isCore);
     this._logger = goog.log.getLogger('bigfox.core.base.MessageOut');
 }
 
@@ -22,12 +22,19 @@ goog.inherits(bigfox.core.base.MessageOut, bigfox.core.base.BaseMessage);
 /**
  * Convert Message out to byte array
  * @returns {*|Uint8Array}
+ * @public
  */
-bigfox.core.base.MessageIn.prototype.toByteArray = function(){
+bigfox.core.base.MessageOut.prototype.toByteArray = function(){
+
     var bfUtil = bigfox.core.util.BFUtil.getInstance();
-    return bfUtil.write(this);
+    var contentBuffer = bfUtil.writeContentToByteArray(this);
+    this.length = contentBuffer.length + 24; //24 bytes header
+    var headBuffer = bfUtil.writeHeaderToByteArray(this);
+    var buffer = headBuffer.concat(contentBuffer);
+
+    return bfUtil.write(buffer);
 }
 
-bigfox.core.base.MessageIn.prototype.send = function(socket){
+bigfox.core.base.MessageOut.prototype.send = function(socket){
     throw new Error('not implement');
 }
