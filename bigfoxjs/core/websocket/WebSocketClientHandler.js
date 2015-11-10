@@ -98,6 +98,8 @@ bigfox.core.WebSocketClientHandler.prototype.onClose = function (e) {
 bigfox.core.WebSocketClientHandler.prototype.readBinaryStream = function (data) {
     //todo: decompress data
 
+    console.log('data to read: ',data);
+
     //todo: decrypt data
     var dataView = new DataView(data);
 
@@ -113,6 +115,8 @@ bigfox.core.WebSocketClientHandler.prototype.readBinaryStream = function (data) 
     var msg = bfUtil.readDataToMessage(dataView);
     if(msg instanceof  bigfox.core.base.MessageIn){
         msg.execute(this._connection);
+    }else{
+        console.log('Message from server', msg);
     }
 
     return msg;
