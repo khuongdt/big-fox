@@ -49,7 +49,7 @@ bigfox.core.entity.ClientInfo.prototype.getVersion = function () {
 }
 
 bigfox.core.entity.ClientInfo.prototype.setVersion = function (version) {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.INT);
     this[propertyPrefix + 'version'] = version;
 }
 

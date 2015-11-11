@@ -8,20 +8,22 @@ goog.provide('bigfox.core.base.CSClientInfo');
 goog.require('goog.log');
 goog.require('goog.crypt');
 
+goog.require('bigfox.Global');
 goog.require('bigfox.core.base.MessageOut');
 goog.require('bigfox.core.base.MessageIn');
 goog.require('bigfox.core.entity.ClientInfo');
+goog.require('bigfox.core.ConnectionManager');
 goog.require('bigfox.core.util.BFUtil');
 
 
-goog.require('bigfox.core.ConnectionManager');
+bigfox.core.base.CSClientInfo = function () {
 
-bigfox.core.base.CSClientInfo = function (tag, name, isCore) {
-    bigfox.core.base.CSClientInfo.base(this, 'constructor', tag, name, isCore);
-
-    this.isCore = true;
+    bigfox.core.base.CSClientInfo.base(this, 'constructor',CS_CLIENT_INFO, 'CS_CLIENT_INFO', true);
+    
     this.tag = CS_CLIENT_INFO;
     this.name = 'CS_CLIENT_INFO';
+    this.status = 1;
+    this.isCore = true;
 
     var connectionManager = bigfox.core.ConnectionManager.getInstance();
 
@@ -30,8 +32,9 @@ bigfox.core.base.CSClientInfo = function (tag, name, isCore) {
     _clientInfo.setZone('BigFoxServerChatExample');
     _clientInfo.setIMEI("");
     _clientInfo.setSessionId(connectionManager.getSessionId());
-    _clientInfo.setVersion('1.0.0.0');
+    _clientInfo.setVersion(1);
     _clientInfo.setMetadata("Metadata");
+
     this.setClientInfo(_clientInfo);
 
     //this._bfUtil = bigfox.core.util.BFUtil.getInstance();

@@ -8,12 +8,15 @@ goog.require('goog.log');
 goog.require('goog.events');
 goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
+goog.require('goog.crypt');
+goog.require('goog.events');
+goog.require('goog.net.WebSocket');
 
 goog.require('bigfox.Global');
 goog.require('bigfox.core.config.Config');
 goog.require('bigfox.core.WebSocketClientHandler');
 
-bigfox.core.ConnectionManager = function (options) {
+bigfox.core.ConnectionManager = function () {
     //bigfox.core.ConnectionManager.base(this, 'constructor');
     this.init();
 }
@@ -68,6 +71,8 @@ bigfox.core.ConnectionManager.prototype._sessionControl = null;
 
 bigfox.core.ConnectionManager.prototype.wsUri = null;
 
+bigfox.core.ConnectionManager.prototype._connection= null;
+
 
 /**
  * Init connection manager
@@ -76,7 +81,12 @@ bigfox.core.ConnectionManager.prototype.init = function () {
     if (this._sessionId == "") {
         //creates new web socket connection
         this.wsUri = "ws://" + bigfox.core.config.Config.ServerInfo.host + ":" + bigfox.core.config.Config.ServerInfo.port + '/' + bigfox.core.config.Config.ServerInfo.channel + '/';
-        this._webSocketClientHandler = new bigfox.core.WebSocketClientHandler(this.wsUri);
+
+        this._connection = new goog.net.WebSocket(false);
+        this._connection.open(this.wsUri);
+        this._connection.webSocket_.binaryType ='arraybuffer';
+
+        this._webSocketClientHandler = new bigfox.core.WebSocketClientHandler(this.wsUri, this._connection);
         //this._webSocketChannelHandler = new WebSocketChanelDecoder();
     }
 
@@ -88,4 +98,12 @@ bigfox.core.ConnectionManager.prototype.setSessionId = function (sessionId) {
 
 bigfox.core.ConnectionManager.prototype.getSessionId = function () {
     return this._sessionId;
+}
+
+bigfox.core.ConnectionManager.prototype.getConnection = function(){
+
+    return this._connection;
+}
+bigfox.core.ConnectionManager.prototype.setConnection = function(websocket){
+    this._connection = websocket;
 }

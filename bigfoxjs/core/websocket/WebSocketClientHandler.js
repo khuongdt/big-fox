@@ -8,23 +8,35 @@ goog.provide('bigfox.core.WebSocketClientHandler');
 goog.require('goog.log');
 goog.require('goog.crypt');
 goog.require('goog.events');
+goog.require('goog.events.EventTarget');
+goog.require('goog.events.Listenable');
 goog.require('goog.net.WebSocket');
 
 goog.require('bigfox.core.base.BaseMessage');
 goog.require('bigfox.core.base.MessageIn');
 goog.require('bigfox.core.base.MessageOut');
 goog.require('bigfox.core.util.BFUtil');
+goog.require('bigfox.core.util.BFCompressUtil');
+goog.require('bigfox.core.crypt.CryptManager');
 
-bigfox.core.WebSocketClientHandler = function (uri) {
-
+bigfox.core.WebSocketClientHandler = function (uri, websocket) {
+    bigfox.core.WebSocketClientHandler.base(this,'constructor');
     this.wsUri = uri || "";
+    this._connection = websocket;
     this.init();
 
 }
+goog.inherits(bigfox.core.WebSocketClientHandler, goog.events.EventTarget);
 
 bigfox.core.WebSocketClientHandler.prototype.wsUri = "";
-bigfox.core.WebSocketClientHandler.prototype._logger = goog.log.getLogger('bigfox.core.WebSocketClientHandler');
 
+/**
+ * @type {number}
+ * @private
+ */
+bigfox.core.WebSocketClientHandler.prototype._validationCode =0 ;
+
+bigfox.core.WebSocketClientHandler.prototype._logger = goog.log.getLogger('bigfox.core.WebSocketClientHandler');
 
 /**
  *
@@ -37,39 +49,18 @@ bigfox.core.WebSocketClientHandler.prototype._logger = goog.log.getLogger('bigfo
 
 
 bigfox.core.WebSocketClientHandler.prototype.init = function () {
-    this._connection = new goog.net.WebSocket();
-    this._connection.open(this.wsUri);
-    this._connection.webSocket_.binaryType ='arraybuffer';
-
-    //this._connection.open(this.wsUri, '');
-    //this._connection.binaryType = 'arraybuffer'; //set transfer method  "blob" || "arraybuffer"
 
     goog.events.listen(this._connection, goog.net.WebSocket.EventType.OPENED, this.onOpen, false, this);
     goog.events.listen(this._connection, goog.net.WebSocket.EventType.ERROR, this.onError, false, this);
     goog.events.listen(this._connection, goog.net.WebSocket.EventType.MESSAGE, this.onMessage, false, this);
     goog.events.listen(this._connection, goog.net.WebSocket.EventType.CLOSED, this.onClose, false, this);
 
-    //var self = this;
-    //this._connection.onopen = function (e) {
-    //    self.onOpen(e);
-    //}
-    //this._connection.onerror = function (e) {
-    //    self.onError(e);
-    //}
-    //
-    //this._connection.onmessage = function (e) {
-    //    self.onMessage(e);
-    //}
-    //this._connection.onclose = function (e) {
-    //    self.onClose(e);
-    //}
 }
 
 bigfox.core.WebSocketClientHandler.prototype.onOpen = function (e) {
-    if(goog.DEBUG){
-
+    if (goog.DEBUG) {
         goog.log.info(this._logger, 'On websocket open!', e);
-        console.log('On open connection:',e);
+        console.log('On open connection:', e);
     }
 }
 bigfox.core.WebSocketClientHandler.prototype.onError = function (e) {
@@ -80,8 +71,6 @@ bigfox.core.WebSocketClientHandler.prototype.onMessage = function (e) {
     goog.log.info(this._logger, 'On websocket message!', e);
     //TODO: Read binary stream information
     var data = e.message;
-
-    console.log('data on message: ', e);
 
     //goog.log.info(this._logger, 'Parse to Class: ', this.readBinaryStream(data));
     console.log('Parse to Class: ', this.readBinaryStream(data));
@@ -98,25 +87,36 @@ bigfox.core.WebSocketClientHandler.prototype.onClose = function (e) {
 bigfox.core.WebSocketClientHandler.prototype.readBinaryStream = function (data) {
     //todo: decompress data
 
-    console.log('data to read: ',data);
-
     //todo: decrypt data
+    //data = bigfox.core.crypt.CryptManager.encrypt(data);
+
     var dataView = new DataView(data);
 
     var bfUtil = bigfox.core.util.BFUtil.getInstance();
 
     var header = bfUtil.readHeader(dataView);
-    //todo: read message content
+    if(header.tag != SC_VALIDATION_CODE){
+        var dataBuffer = new Uint8Array(data);
+        //todo: decompress data
+        dataBuffer = bigfox.core.util.BFCompressUtil.decompress(dataBuffer, 24);
 
-    var content = bfUtil.readContentData(dataView,24, header);
+        //todo: decrypt data
+        console.log('Data buffer: ', dataBuffer);
+
+        dataView = bigfox.core.crypt.CryptManager.decryptByteArray(this._validationCode,dataBuffer);
+    }
+    //todo: read message content
+    var content = bfUtil.readContentData(dataView, 24, header);
+    console.log('Content: ', content);
 
     //todo: make correct class
-
     var msg = bfUtil.readDataToMessage(dataView);
-    if(msg instanceof  bigfox.core.base.MessageIn){
+    if (msg instanceof  bigfox.core.base.SCValidationCode) {
+        this._validationCode = msg.getValidationCode();
         msg.execute(this._connection);
-    }else{
-        console.log('Message from server', msg);
+        goog.events.dispatchEvent(this,msg.tag);
+    } else {
+        //console.log('Message from server', msg);
     }
 
     return msg;

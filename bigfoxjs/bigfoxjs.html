@@ -5,10 +5,15 @@
 	<title>bigfoxjs</title>
 	<script type="text/javascript" src="../limejs/closure/closure/goog/base.js"></script>
 	<!--<script type="text/javascript" src="bigfoxjs.js"></script>-->
+	<script type="text/javascript" src="./core/lib/zlib_and_gzip.min.js"></script>
 	<script type="text/javascript" src="app.js"></script>
 </head>
 
 <!--<body onload="bigfoxjs.start()"></body>-->
 <body onload="ChatApp.run()"></body>
+
+<input type="submit" value="Send CSClientInfo" onclick="ChatApp.SendClientInfo();">
+<br>
+<input type="submit" value="Ping" onclick="ChatApp.sendPing();">
 
 </html>

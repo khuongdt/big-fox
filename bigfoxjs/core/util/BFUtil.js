@@ -93,8 +93,7 @@ bigfox.core.util.BFUtil.prototype.readContentData = function (data, opt_offset, 
 
     var content = opt_appendObject || {};
     var offset = opt_offset || 24;
-    var fieldLength = data.getUint8(24); //number of property
-    offset += 1;
+    var fieldLength = data.getInt8(offset++); //number of property
     for (var i = 0; i < fieldLength; i++) {
 
         //read property name
@@ -294,6 +293,7 @@ bigfox.core.util.BFUtil.prototype.readDataToMessage = function (data) {
     var header = this.readHeader(data);
 
     var proto = coreMapping[header.tag];
+
     if (!proto) {
         proto = userMapping[header.tag];
     }
@@ -301,9 +301,10 @@ bigfox.core.util.BFUtil.prototype.readDataToMessage = function (data) {
         var message = new proto();
 
         message = this.readHeader(data, message);
+
         message = this.readContentData(data, 24, message);
     } else {
-        return {};
+        throw  new Error('Unknow object type.');
     }
 
     return message.value;
@@ -450,12 +451,10 @@ bigfox.core.util.BFUtil.prototype.writeHeaderToByteArray = function (baseMessage
 bigfox.core.util.BFUtil.prototype.writeContentToByteArray = function (baseMessage, opt_outputStream) {
     var buffer = opt_outputStream || [];
 
+    //var keys = Object.keys(baseMessage);
+
     //write property length
-    console.log(' base message: ', baseMessage);
-
-    var keys = Object.keys(baseMessage);
-
-    //todo: need to calculate
+    //calculate number of property
     var count = goog.array.count(Object.keys(baseMessage),function(el,index,arr){
         var prefix = el.substr(0, 4);
         //var propertyName = key.substr(4);
@@ -575,10 +574,10 @@ bigfox.core.util.BFUtil.prototype.writeInt = function (number, opt_buffer) {
     "use strict";
     var buffer = opt_buffer || [];
     var val = number || 0;
-    buffer.push(val >> 24 & 0xff);  //first byre
-    buffer.push(val >> 16 * 0xff);   //second byte
-    buffer.push(val >> 8 & 0xff);   //3rd byte
-    buffer.push(val & 0xff);   //4th byte
+    buffer.push(val >> 24 & 0xff);
+    buffer.push(val >> 16 * 0xff);
+    buffer.push(val >> 8 & 0xff);
+    buffer.push(val & 0xff);
     return buffer;
 }
 
@@ -619,7 +618,7 @@ bigfox.core.util.BFUtil.prototype.writeFloat = function (number, opt_buffer) {
 }
 bigfox.core.util.BFUtil.prototype.writeBoolean = function (bool, opt_buffer) {
     "use strict";
-    return this.writeByte(bool, opt_buffer);
+    return this.writeByte(bool?1:0, opt_buffer);
 }
 bigfox.core.util.BFUtil.prototype.writeChar = function (char, opt_buffer) {
     "use strict";

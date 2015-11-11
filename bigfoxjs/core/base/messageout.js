@@ -28,11 +28,15 @@ bigfox.core.base.MessageOut.prototype.toByteArray = function(){
 
     var bfUtil = bigfox.core.util.BFUtil.getInstance();
     var contentBuffer = bfUtil.writeContentToByteArray(this);
+
     this.length = contentBuffer.length + 24; //24 bytes header
+
     var headBuffer = bfUtil.writeHeaderToByteArray(this);
+
     var buffer = headBuffer.concat(contentBuffer);
 
-    return bfUtil.write(buffer);
+    return buffer;
+    //return bfUtil.write(buffer);
 }
 
 bigfox.core.base.MessageOut.prototype.send = function(socket){
