@@ -12,32 +12,29 @@ goog.require('bigfox.Global');
 goog.require('bigfox.core.base.MessageOut');
 goog.require('bigfox.core.base.MessageIn');
 goog.require('bigfox.core.entity.ClientInfo');
-goog.require('bigfox.core.ConnectionManager');
 goog.require('bigfox.core.util.BFUtil');
 
 
 bigfox.core.base.CSClientInfo = function () {
 
-    bigfox.core.base.CSClientInfo.base(this, 'constructor',CS_CLIENT_INFO, 'CS_CLIENT_INFO', true);
-    
+    bigfox.core.base.CSClientInfo.base(this, 'constructor', CS_CLIENT_INFO, 'CS_CLIENT_INFO', true);
+
     this.tag = CS_CLIENT_INFO;
     this.name = 'CS_CLIENT_INFO';
     this.status = 1;
     this.isCore = true;
 
-    var connectionManager = bigfox.core.ConnectionManager.getInstance();
 
     var _clientInfo = new bigfox.core.entity.ClientInfo();
     _clientInfo.setDevice(bigfox.core.entity.ClientInfo.DEVICE_WEB);
     _clientInfo.setZone('BigFoxServerChatExample');
     _clientInfo.setIMEI("");
-    _clientInfo.setSessionId(connectionManager.getSessionId());
+    _clientInfo.setSessionId("");
     _clientInfo.setVersion(1);
     _clientInfo.setMetadata("Metadata");
 
     this.setClientInfo(_clientInfo);
 
-    //this._bfUtil = bigfox.core.util.BFUtil.getInstance();
 }
 
 goog.inherits(bigfox.core.base.CSClientInfo, bigfox.core.base.MessageOut);
@@ -50,12 +47,22 @@ goog.inherits(bigfox.core.base.CSClientInfo, bigfox.core.base.MessageOut);
 
 bigfox.core.base.CSClientInfo.prototype._bfUtil = bigfox.core.util.BFUtil.getInstance();
 
+bigfox.core.base.CSClientInfo.prototype._bfUtil = bigfox.core.util.BFUtil.getInstance();
+
+bigfox.core.base.CSClientInfo.prototype.setSessionId = function (sid) {
+
+    var clientInfo = this.getClientInfo();
+    clientInfo.setSessionId(sid);
+    this.setClientInfo(clientInfo);
+}
+
 bigfox.core.base.CSClientInfo.prototype.setClientInfo = function (clientInfo) {
     var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.OBJECT);
     if (clientInfo instanceof  bigfox.core.entity.ClientInfo) {
         this[propertyPrefix + 'clientInfo'] = clientInfo;
     }
 }
+
 
 bigfox.core.base.CSClientInfo.prototype.getClientInfo = function () {
     var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.OBJECT);

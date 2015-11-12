@@ -72,6 +72,48 @@ bigfox.core.WebSocketClientHandler.prototype.onMessage = function (e) {
     //TODO: Read binary stream information
     var data = e.message;
 
+    var message = e.message;
+    var self = this;
+    //todo: convert blob -> typed array
+    var reader = new FileReader();
+    reader.addEventListener("loadend", function () {
+        // reader.result contains the contents of blob as a typed array
+        var data = reader.result;
+
+        var testData = new Int8Array(data.slice(0,24));
+        var bfUtil = bigfox.core.util.BFUtil.getInstance();
+
+        var dataView = new DataView(data);
+        var headerTag = 0;
+        headerTag = headerTag | (testData[4] << 24);
+        headerTag = headerTag | (testData[5] << 16);
+        headerTag = headerTag | (testData[6] << 8);
+        headerTag = headerTag | testData[7];
+        console.log(' Header tag: ', headerTag);
+
+        var header = bfUtil.readHeader(dataView);
+
+        if (header.tag != SC_VALIDATION_CODE) {
+            var dataBuffer = new Uint8Array(data);
+
+            //decompress data
+            dataBuffer = bigfox.core.util.BFCompressUtil.decompress(dataBuffer, 24);
+
+            //decrypt data
+            dataView = bigfox.core.crypt.CryptManager.decryptByteArray(self._validationCode, dataBuffer);
+        }
+        //todo: make correct class
+        var msg = bfUtil.readDataToMessage(dataView);
+
+        if (msg instanceof  bigfox.core.base.SCValidationCode) {
+            self._validationCode = msg.getValidationCode();
+
+            //msg.execute(this._connection);
+        }
+
+        //self.dispatchEvent(new bigfox.core.websocket.BFConnection.MessageEvent(msg));
+    });
+    reader.readAsArrayBuffer(message);
     //goog.log.info(this._logger, 'Parse to Class: ', this.readBinaryStream(data));
     console.log('Parse to Class: ', this.readBinaryStream(data));
 }
@@ -85,11 +127,12 @@ bigfox.core.WebSocketClientHandler.prototype.onClose = function (e) {
  * @return {BaseMessage}
  */
 bigfox.core.WebSocketClientHandler.prototype.readBinaryStream = function (data) {
-    //todo: decompress data
+    //todo: test convert data
+
 
     //todo: decrypt data
     //data = bigfox.core.crypt.CryptManager.encrypt(data);
-
+return;
     var dataView = new DataView(data);
 
     var bfUtil = bigfox.core.util.BFUtil.getInstance();
@@ -114,7 +157,6 @@ bigfox.core.WebSocketClientHandler.prototype.readBinaryStream = function (data) 
     if (msg instanceof  bigfox.core.base.SCValidationCode) {
         this._validationCode = msg.getValidationCode();
         msg.execute(this._connection);
-        goog.events.dispatchEvent(this,msg.tag);
     } else {
         //console.log('Message from server', msg);
     }

@@ -126,6 +126,11 @@ bigfox.core.util.BFUtil.prototype.readContentData = function (data, opt_offset, 
             case bigfox.core.util.BFUtil.LONG :
                 // in JS don't have type Long
                 val = data.getFloat64(offset);
+                //var v1= data.getUint32(offset);
+                //var v2= data.getUint32(offset+4);
+                //val = (v1 << 32) | v2;
+
+                console.log('long value: ', val);
                 offset += 8;
                 break;
             case bigfox.core.util.BFUtil.FLOAT :
@@ -285,10 +290,16 @@ bigfox.core.util.BFUtil.prototype.readArray = function (data, offset, element_ty
 
 /**
  *
- * @param {DataView} data
+ * @param {DataView || Int8Array | Uint8Array} data
  * @returns {BaseMessage}
  */
 bigfox.core.util.BFUtil.prototype.readDataToMessage = function (data) {
+
+
+    if(data instanceof Int8Array || data instanceof Uint8Array){
+
+        data = new DataView(data);
+    }
 
     var header = this.readHeader(data);
 
@@ -310,8 +321,22 @@ bigfox.core.util.BFUtil.prototype.readDataToMessage = function (data) {
     return message.value;
 
 }
+
 /**
- *
+ * Read header tag from byte header
+ * @param data
+ * @returns {number}
+ */
+bigfox.core.util.BFUtil.prototype.getTagFromBytes = function(data){
+
+    var headerTag = 0;
+    headerTag |= (data[4] << 24);
+    headerTag |= (data[5] << 16);
+    headerTag |= (data[6] << 8);
+    headerTag |= data[7];
+    return headerTag;
+}
+/**
  * @param {Number} propertyType
  * @returns {string}
  */
@@ -343,7 +368,7 @@ bigfox.core.util.BFUtil.prototype.readString = function (data, byteOffset) {
         buffer.push(charCode);
     }
     //convert array buffer to UTF-8 string
-    var str = String.fromCharCode.apply(null, new Uint8Array(buffer));
+    var str = goog.crypt.utf8ByteArrayToString(new Uint8Array(buffer));
 
     //todo: need to return byteOffset changed
     return {'value': str, 'byteOffset': byteOffset};

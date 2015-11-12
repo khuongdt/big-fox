@@ -17,10 +17,10 @@ goog.require('bigfox.core.config.Config');
 goog.require('bigfox.core.WebSocketClientHandler');
 
 bigfox.core.ConnectionManager = function () {
-    //bigfox.core.ConnectionManager.base(this, 'constructor');
+    bigfox.core.ConnectionManager.base(this, 'constructor');
     this.init();
 }
-//goog.inherits(bigfox.core.ConnectionManager, goog.events.EventTarget);
+goog.inherits(bigfox.core.ConnectionManager, goog.events.EventTarget);
 goog.addSingletonGetter(bigfox.core.ConnectionManager);
 
 
@@ -84,7 +84,7 @@ bigfox.core.ConnectionManager.prototype.init = function () {
 
         this._connection = new goog.net.WebSocket(false);
         this._connection.open(this.wsUri);
-        this._connection.webSocket_.binaryType ='arraybuffer';
+        //this._connection.webSocket_.binaryType ='arraybuffer';
 
         this._webSocketClientHandler = new bigfox.core.WebSocketClientHandler(this.wsUri, this._connection);
         //this._webSocketChannelHandler = new WebSocketChanelDecoder();

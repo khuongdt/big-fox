@@ -23,21 +23,27 @@ bigfox.core.BigFox = function () {
 }
 goog.addSingletonGetter(bigfox.core.BigFox);
 
-bigfox.core.BigFox.prototype.start = function () {
-    this.connectionManager = bigfox.core.ConnectionManager.getInstance();
-}
-
+/**
+ * @type {string}
+ */
+bigfox.core.BigFox.prototype.wsUri ="";
 
 /**
- * @private
- * @type { bigfox.core.ConnectionManager || undefined}
+ *
+ * @param {Array.<int,bigfox.core.base.BaseMessage.prototype>} map
  */
-bigfox.core.BigFox.prototype.connectionManager = undefined;
+bigfox.core.BigFox.prototype.addAppClasses = function(map){
+    if(goog.isDefAndNotNull(map) ){
+        Object.keys(map).forEach(function(key){
+            userMapping[key]= map[key];
+        })
+    }
+}
 
-bigfox.core.BigFox.prototype.getConnectionManager = function(){
-    return this.connectionManager
-};
+//bigfox.core.BigFox.prototype.start = function () {
+//    this.connectionManager = bigfox.core.ConnectionManager.getInstance();
+//}
 
 //this is required for outside access after code is compiled in ADVANCED_COMPILATIONS mode
 goog.exportSymbol('BigFox', bigfox.core.BigFox);
-goog.exportSymbol('BigFox.prototype.start', bigfox.core.BigFox.prototype.start);
+//goog.exportSymbol('BigFox.prototype.start', bigfox.core.BigFox.prototype.start);

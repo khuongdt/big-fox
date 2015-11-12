@@ -28,7 +28,7 @@ bigfox.core.crypt.CryptManager.encrypt = function (cryptKey, data) {
  * decrypt byte array using XOR and return an DataView
  * @param cryptKey
  * @param data
- * @param opt_byteOffset
+ * @param [opt_byteOffset]
  * @returns {DataView}
  */
 bigfox.core.crypt.CryptManager.decryptByteArray = function (cryptKey, data, opt_byteOffset) {
