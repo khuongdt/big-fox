@@ -12,8 +12,6 @@ goog.require('bigfox.core.base.SCValidationCode');
 goog.require('bigfox.core.base.SCInitSession');
 goog.require('bigfox.core.base.SCPing');
 
-goog.require('bigfox.core.ConnectionManager');
-
 bigfox.core.BigFox = function () {
 
     coreMapping[SC_VALIDATION_CODE] =   bigfox.core.base.SCValidationCode;
@@ -40,9 +38,6 @@ bigfox.core.BigFox.prototype.addAppClasses = function(map){
     }
 }
 
-//bigfox.core.BigFox.prototype.start = function () {
-//    this.connectionManager = bigfox.core.ConnectionManager.getInstance();
-//}
 
 //this is required for outside access after code is compiled in ADVANCED_COMPILATIONS mode
 goog.exportSymbol('BigFox', bigfox.core.BigFox);

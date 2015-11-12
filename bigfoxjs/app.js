@@ -8,7 +8,6 @@ goog.require('goog.debug');
 goog.require('goog.debug.Console');
 goog.require('goog.debug.FancyWindow');
 
-goog.require('bigfox.core.ConnectionManager');
 
 goog.require('bigfox.core.config.Config');
 goog.require('bigfox.core.base.BaseMessage');
@@ -61,44 +60,44 @@ bigfox.example.ChatApp.run = function () {
  */
 bigfox.example.ChatApp.handler = undefined;
 
-bigfox.example.ChatApp.SendClientInfo = function () {
-    var connectionManager = bigfox.core.ConnectionManager.getInstance();
+//bigfox.example.ChatApp.SendClientInfo = function () {
+//    var connectionManager = bigfox.core.ConnectionManager.getInstance();
+//
+//    /**  @type {bigfox.core.base.CSClientInfo} */
+//    var csClientInfo = new bigfox.core.base.CSClientInfo();
+//    csClientInfo.mSequence = connectionManager.curMSequence++;
+//
+//    var buffer = csClientInfo.toByteArray();
+//    //send csClientInfo to Server
+//    buffer = new Int8Array(buffer);
+//
+//    //encrypt message data to send
+//    buffer = bigfox.core.crypt.CryptManager.encrypt(connectionManager.validationCode, buffer);
+//    //compress message
+//    buffer = bigfox.core.util.BFCompressUtil.compress(buffer, 24);
+//
+//    connectionManager.getConnection().send(buffer);
+//
+//}
 
-    /**  @type {bigfox.core.base.CSClientInfo} */
-    var csClientInfo = new bigfox.core.base.CSClientInfo();
-    csClientInfo.mSequence = connectionManager.curMSequence++;
-
-    var buffer = csClientInfo.toByteArray();
-    //send csClientInfo to Server
-    buffer = new Int8Array(buffer);
-
-    //encrypt message data to send
-    buffer = bigfox.core.crypt.CryptManager.encrypt(connectionManager.validationCode, buffer);
-    //compress message
-    buffer = bigfox.core.util.BFCompressUtil.compress(buffer, 24);
-
-    connectionManager.getConnection().send(buffer);
-
-}
-
-bigfox.example.ChatApp.sendPing = function () {
-    var connectionManager = bigfox.core.ConnectionManager.getInstance();
-
-    var ping = new bigfox.core.base.CSPing();
-    ping.mSequence = connectionManager.curMSequence++;
-
-    var buffer = ping.toByteArray();
-    //send csClientInfo to Server
-    buffer = new Int8Array(buffer);
-
-    //encrypt message data to send
-    buffer = bigfox.core.crypt.CryptManager.encrypt(connectionManager.validationCode, buffer);
-    //compress message
-    buffer = bigfox.core.util.BFCompressUtil.compress(buffer, 24);
-
-    connectionManager.getConnection().send(buffer);
-
-}
+//bigfox.example.ChatApp.sendPing = function () {
+//    var connectionManager = bigfox.core.ConnectionManager.getInstance();
+//
+//    var ping = new bigfox.core.base.CSPing();
+//    ping.mSequence = connectionManager.curMSequence++;
+//
+//    var buffer = ping.toByteArray();
+//    //send csClientInfo to Server
+//    buffer = new Int8Array(buffer);
+//
+//    //encrypt message data to send
+//    buffer = bigfox.core.crypt.CryptManager.encrypt(connectionManager.validationCode, buffer);
+//    //compress message
+//    buffer = bigfox.core.util.BFCompressUtil.compress(buffer, 24);
+//
+//    connectionManager.getConnection().send(buffer);
+//
+//}
 
 bigfox.example.ChatApp.sendUserName = function () {
     var name = $('#txtName').val();

@@ -9,10 +9,8 @@ goog.require('goog.log');
 
 goog.require('bigfox.Global');
 goog.require('bigfox.core.base.MessageIn');
-goog.require('bigfox.core.base.MessageOut');
 goog.require('bigfox.core.base.CSClientInfo');
 
-goog.require('bigfox.core.ConnectionManager');
 
 bigfox.core.base.SCValidationCode = function (tag, name, isCore) {
     bigfox.core.base.SCValidationCode.base(this, 'constructor');
@@ -42,9 +40,6 @@ bigfox.core.base.SCValidationCode.prototype.setValidationCode = function (value)
  * @param {goog.net.WebSocket} socket
  */
 bigfox.core.base.SCValidationCode.prototype.execute = function (socket) {
-
-    var connectionManager = bigfox.core.ConnectionManager.getInstance();
-    connectionManager.validationCode = this.getValidationCode();
 
     //todo: implement business logic here
 
