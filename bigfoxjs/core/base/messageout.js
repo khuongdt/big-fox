@@ -33,12 +33,9 @@ bigfox.core.base.MessageOut.prototype.toByteArray = function(){
 
     var headBuffer = bfUtil.writeHeaderToByteArray(this);
 
-    var buffer = headBuffer.concat(contentBuffer);
-
-    return buffer;
-    //return bfUtil.write(buffer);
+    return headBuffer.concat(contentBuffer);
 }
 
-bigfox.core.base.MessageOut.prototype.send = function(socket){
+bigfox.core.base.MessageOut.prototype.send = function(connection){
     throw new Error('not implement');
 }
