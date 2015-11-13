@@ -50,7 +50,7 @@ bigfox.example.ChatApp.run = function () {
     bigFox.addAppClasses(chatClasses);
 
     //create Big fox connection
-    var connection = new bigfox.core.websocket.BFConnection();
+    var connection = new bigfox.core.websocket.BFConnection(true);
     bigfox.example.ChatApp.handler = new bigfox.example.ChatHandler(connection);
     connection.open(bigFox.wsUri);
 }
@@ -59,45 +59,6 @@ bigfox.example.ChatApp.run = function () {
  * @type {bigfox.example.ChatHandler || undefined}
  */
 bigfox.example.ChatApp.handler = undefined;
-
-//bigfox.example.ChatApp.SendClientInfo = function () {
-//    var connectionManager = bigfox.core.ConnectionManager.getInstance();
-//
-//    /**  @type {bigfox.core.base.CSClientInfo} */
-//    var csClientInfo = new bigfox.core.base.CSClientInfo();
-//    csClientInfo.mSequence = connectionManager.curMSequence++;
-//
-//    var buffer = csClientInfo.toByteArray();
-//    //send csClientInfo to Server
-//    buffer = new Int8Array(buffer);
-//
-//    //encrypt message data to send
-//    buffer = bigfox.core.crypt.CryptManager.encrypt(connectionManager.validationCode, buffer);
-//    //compress message
-//    buffer = bigfox.core.util.BFCompressUtil.compress(buffer, 24);
-//
-//    connectionManager.getConnection().send(buffer);
-//
-//}
-
-//bigfox.example.ChatApp.sendPing = function () {
-//    var connectionManager = bigfox.core.ConnectionManager.getInstance();
-//
-//    var ping = new bigfox.core.base.CSPing();
-//    ping.mSequence = connectionManager.curMSequence++;
-//
-//    var buffer = ping.toByteArray();
-//    //send csClientInfo to Server
-//    buffer = new Int8Array(buffer);
-//
-//    //encrypt message data to send
-//    buffer = bigfox.core.crypt.CryptManager.encrypt(connectionManager.validationCode, buffer);
-//    //compress message
-//    buffer = bigfox.core.util.BFCompressUtil.compress(buffer, 24);
-//
-//    connectionManager.getConnection().send(buffer);
-//
-//}
 
 bigfox.example.ChatApp.sendUserName = function () {
     var name = $('#txtName').val();

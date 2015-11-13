@@ -6,7 +6,7 @@ goog.provide('bigfox.example.CSName');
 goog.require('goog.log');
 
 goog.require('bigfox.Global');
-goog.require('bigfox.core.util.BFUtil');
+goog.require('bigfox.core.DataTypes');
 
 goog.require('bigfox.example.ChatTags.Tags');
 
@@ -24,11 +24,11 @@ goog.inherits(bigfox.example.CSName, bigfox.core.base.MessageOut);
 
 
 bigfox.example.CSName.prototype.getName = function () {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     return this[propertyPrefix + 'msg'];
 }
 
 bigfox.example.CSName.prototype.setName = function (value) {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     this[propertyPrefix + 'msg'] = value;
 }

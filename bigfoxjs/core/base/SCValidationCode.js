@@ -23,7 +23,7 @@ goog.inherits(bigfox.core.base.SCValidationCode, bigfox.core.base.MessageIn);
 
 
 bigfox.core.base.SCValidationCode.prototype.getValidationCode = function () {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.INT);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.INT);
     return this[propertyPrefix + 'validationCode'];
 }
 
@@ -32,7 +32,7 @@ bigfox.core.base.SCValidationCode.prototype.getValidationCode = function () {
  * @param {!number} value
  */
 bigfox.core.base.SCValidationCode.prototype.setValidationCode = function (value) {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.INT);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.INT);
     this[propertyPrefix + 'validationCode'] = value;
 }
 /**

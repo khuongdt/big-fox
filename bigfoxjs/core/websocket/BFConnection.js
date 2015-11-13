@@ -93,8 +93,12 @@ bigfox.core.websocket.BFConnection.prototype.getCurSvrSeq = function () {
     return this.sSequence;
 }
 
+/**
+ * @private
+ * @param sSequence
+ */
 bigfox.core.websocket.BFConnection.prototype.setSvrSequence = function (sSequence) {
-    return this.sSequence = sSequence;
+    this.sSequence = sSequence;
 }
 
 bigfox.core.websocket.BFConnection.prototype.getValidationCode = function () {

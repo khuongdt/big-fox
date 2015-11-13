@@ -11,63 +11,38 @@ goog.require('goog.json');
 goog.require('bigfox.core.base.BaseMessage');
 
 
-/**
- * @const
- */
-var PrefixMapping = {
-    "0x00": 0,  //NULL
-    '0x01': 1,  // INT
-    '0x02': 2,  //SHORT
-    '0x03': 3,  //BYTE
-    '0x04': 4,  //LONG
-    '0x05': 5,  //FLOAT
-    '0x06': 6,  //DOUBLE
-    '0x07': 7,  //BOOLEAN
-    '0x08': 8,  //CHAR
-    '0x09': 9,  //STRING
-    '0x0a': 10, //OBJECT
-    '0x0b': 11, //ARRAY_INT
-    '0x0c': 12,
-    '0x0d': 13,
-    '0x0e': 14,
-    '0x0f': 15,
-    '0x10': 16,
-    '0x11': 17,
-    '0x12': 18,
-    '0x13': 19,
-    '0x14': 20
-}
-
 bigfox.core.util.BFUtil = function () {
 
 };
 goog.addSingletonGetter(bigfox.core.util.BFUtil);
 
+
+
 /**
  * @const
  */
-bigfox.core.util.BFUtil.NULL = 0;
-bigfox.core.util.BFUtil.NOT_NULL = 1;
-bigfox.core.util.BFUtil.INT = 1;
-bigfox.core.util.BFUtil.SHORT = 2;
-bigfox.core.util.BFUtil.BYTE = 3;
-bigfox.core.util.BFUtil.LONG = 4;
-bigfox.core.util.BFUtil.FLOAT = 5;
-bigfox.core.util.BFUtil.DOUBLE = 6;
-bigfox.core.util.BFUtil.BOOLEAN = 7;
-bigfox.core.util.BFUtil.CHAR = 8;
-bigfox.core.util.BFUtil.STRING = 9;
-bigfox.core.util.BFUtil.OBJECT = 10;
-bigfox.core.util.BFUtil.ARRAY_INT = 11;
-bigfox.core.util.BFUtil.ARRAY_SHORT = 12;
-bigfox.core.util.BFUtil.ARRAY_BYTE = 13;
-bigfox.core.util.BFUtil.ARRAY_LONG = 14;
-bigfox.core.util.BFUtil.ARRAY_FLOAT = 15;
-bigfox.core.util.BFUtil.ARRAY_DOUBLE = 16;
-bigfox.core.util.BFUtil.ARRAY_BOOLEAN = 17;
-bigfox.core.util.BFUtil.ARRAY_CHAR = 18;
-bigfox.core.util.BFUtil.ARRAY_STRING = 19;
-bigfox.core.util.BFUtil.ARRAY_OBJECT = 20;
+//bigfox.core.util.BFUtil.NULL = 0;
+//bigfox.core.util.BFUtil.NOT_NULL = 1;
+//bigfox.core.util.BFUtil.INT = 1;
+//bigfox.core.util.BFUtil.SHORT = 2;
+//bigfox.core.util.BFUtil.BYTE = 3;
+//bigfox.core.util.BFUtil.LONG = 4;
+//bigfox.core.util.BFUtil.FLOAT = 5;
+//bigfox.core.util.BFUtil.DOUBLE = 6;
+//bigfox.core.util.BFUtil.BOOLEAN = 7;
+//bigfox.core.util.BFUtil.CHAR = 8;
+//bigfox.core.util.BFUtil.STRING = 9;
+//bigfox.core.util.BFUtil.OBJECT = 10;
+//bigfox.core.util.BFUtil.ARRAY_INT = 11;
+//bigfox.core.util.BFUtil.ARRAY_SHORT = 12;
+//bigfox.core.util.BFUtil.ARRAY_BYTE = 13;
+//bigfox.core.util.BFUtil.ARRAY_LONG = 14;
+//bigfox.core.util.BFUtil.ARRAY_FLOAT = 15;
+//bigfox.core.util.BFUtil.ARRAY_DOUBLE = 16;
+//bigfox.core.util.BFUtil.ARRAY_BOOLEAN = 17;
+//bigfox.core.util.BFUtil.ARRAY_CHAR = 18;
+//bigfox.core.util.BFUtil.ARRAY_STRING = 19;
+//bigfox.core.util.BFUtil.ARRAY_OBJECT = 20;
 
 bigfox.core.util.BFUtil.prototype.readHeader = function (data, opt_appendObject) {
     var header = opt_appendObject || {};
@@ -109,21 +84,21 @@ bigfox.core.util.BFUtil.prototype.readContentData = function (data, opt_offset, 
         var val;
         //read property value
         switch (proType) {
-            case  this.constructor.NULL:
+            case  bigfox.core.DataTypes.NULL:
                 val = data.getInt8(offset++);
                 break;
-            case  bigfox.core.util.BFUtil.INT:
+            case  bigfox.core.DataTypes.INT:
                 val = data.getInt32(offset);
                 offset += 4; //default int 4 bytes
                 break;
-            case bigfox.core.util.BFUtil.SHORT:
+            case bigfox.core.DataTypes.SHORT:
                 val = data.getInt16(offset);
                 offset += 2; //default short 2 bytes
                 break;
-            case  bigfox.core.util.BFUtil.BYTE :
+            case  bigfox.core.DataTypes.BYTE :
                 val = data.getInt8(offset++);
                 break;
-            case bigfox.core.util.BFUtil.LONG :
+            case bigfox.core.DataTypes.LONG :
                 // in JS don't have type Long
                 val = data.getFloat64(offset);
                 //var v1= data.getUint32(offset);
@@ -133,80 +108,80 @@ bigfox.core.util.BFUtil.prototype.readContentData = function (data, opt_offset, 
                 console.log('long value: ', val);
                 offset += 8;
                 break;
-            case bigfox.core.util.BFUtil.FLOAT :
+            case bigfox.core.DataTypes.FLOAT :
                 val = data.getFloat32(offset);
                 offset += 4;
                 break;
-            case bigfox.core.util.BFUtil.DOUBLE :
+            case bigfox.core.DataTypes.DOUBLE :
                 val = data.getFloat64(offset);
                 offset += 8;
                 break;
-            case bigfox.core.util.BFUtil.BOOLEAN :
+            case bigfox.core.DataTypes.BOOLEAN :
                 val = data.getInt8(offset++);
                 break;
-            case bigfox.core.util.BFUtil.CHAR :
+            case bigfox.core.DataTypes.CHAR :
                 val = data.getInt16(offset++);
                 offset += 2;
                 break;
-            case  bigfox.core.util.BFUtil.STRING:
+            case  bigfox.core.DataTypes.STRING:
                 var res = this.readString(data, offset);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.OBJECT :
+            case bigfox.core.DataTypes.OBJECT :
                 var res = this.readContentData(data, offset);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
 
             //Read array
-            case bigfox.core.util.BFUtil.ARRAY_INT :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.INT);
+            case bigfox.core.DataTypes.ARRAY_INT :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.INT);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.ARRAY_SHORT :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.SHORT);
+            case bigfox.core.DataTypes.ARRAY_SHORT :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.SHORT);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.ARRAY_BYTE :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.BYTE);
+            case bigfox.core.DataTypes.ARRAY_BYTE :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.BYTE);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.ARRAY_LONG :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.LONG);
+            case bigfox.core.DataTypes.ARRAY_LONG :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.LONG);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.ARRAY_FLOAT :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.FLOAT);
+            case bigfox.core.DataTypes.ARRAY_FLOAT :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.FLOAT);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.ARRAY_DOUBLE :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.DOUBLE);
+            case bigfox.core.DataTypes.ARRAY_DOUBLE :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.DOUBLE);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.ARRAY_BOOLEAN :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.BOOLEAN);
+            case bigfox.core.DataTypes.ARRAY_BOOLEAN :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.BOOLEAN);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.ARRAY_CHAR :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.CHAR);
+            case bigfox.core.DataTypes.ARRAY_CHAR :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.CHAR);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.ARRAY_STRING :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.STRING);
+            case bigfox.core.DataTypes.ARRAY_STRING :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.STRING);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
-            case bigfox.core.util.BFUtil.ARRAY_OBJECT :
-                var res = this.readArray(data, offset, bigfox.core.util.BFUtil.OBJECT);
+            case bigfox.core.DataTypes.ARRAY_OBJECT :
+                var res = this.readArray(data, offset, bigfox.core.DataTypes.OBJECT);
                 val = res.value;
                 offset = res.byteOffset;
                 break;
@@ -232,45 +207,45 @@ bigfox.core.util.BFUtil.prototype.readArray = function (data, offset, element_ty
 
     var fn;
     var fn_increment = 0;
-    
+
     switch (element_type) {
-        case bigfox.core.util.BFUtil.INT:
+        case bigfox.core.DataTypes.INT:
             fn = DataView.prototype.getInt32;
             fn_increment = 4;
             break;
-        case bigfox.core.util.BFUtil.SHORT:
+        case bigfox.core.DataTypes.SHORT:
             fn = DataView.prototype.getInt16;
             fn_increment = 2;
             break;
-        case bigfox.core.util.BFUtil.BYTE:
+        case bigfox.core.DataTypes.BYTE:
             fn = DataView.prototype.getInt8;
             fn_increment = 1;
             break;
-        case bigfox.core.util.BFUtil.LONG:
+        case bigfox.core.DataTypes.LONG:
             fn = DataView.prototype.getFloat64;
             fn_increment = 8;
             break;
-        case bigfox.core.util.BFUtil.FLOAT:
+        case bigfox.core.DataTypes.FLOAT:
             fn = DataView.prototype.getFloat32;
             fn_increment = 4;
             break;
-        case bigfox.core.util.BFUtil.DOUBLE:
+        case bigfox.core.DataTypes.DOUBLE:
             fn = DataView.prototype.getFloat64;
             fn_increment = 8;
             break;
-        case bigfox.core.util.BFUtil.BOOLEAN:
+        case bigfox.core.DataTypes.BOOLEAN:
             fn = DataView.prototype.getInt8;
             fn_increment = 1;
             break;
-        case bigfox.core.util.BFUtil.CHAR:
+        case bigfox.core.DataTypes.CHAR:
             fn = DataView.prototype.getInt16;
             fn_increment = 2;
             break;
-        case bigfox.core.util.BFUtil.STRING:
+        case bigfox.core.DataTypes.STRING:
             return this.readArrayString(data, offset, count);
             break;
 
-        case bigfox.core.util.BFUtil.OBJECT:
+        case bigfox.core.DataTypes.OBJECT:
             return this.readArrayObject(data, offset, count);
             break;
         default :
@@ -296,7 +271,7 @@ bigfox.core.util.BFUtil.prototype.readArray = function (data, offset, element_ty
 bigfox.core.util.BFUtil.prototype.readDataToMessage = function (data) {
 
 
-    if(data instanceof Int8Array || data instanceof Uint8Array){
+    if (data instanceof Int8Array || data instanceof Uint8Array) {
 
         data = new DataView(data);
     }
@@ -327,7 +302,7 @@ bigfox.core.util.BFUtil.prototype.readDataToMessage = function (data) {
  * @param data
  * @returns {number}
  */
-bigfox.core.util.BFUtil.prototype.getTagFromBytes = function(data){
+bigfox.core.util.BFUtil.prototype.getTagFromBytes = function (data) {
 
     var headerTag = 0;
     headerTag |= (data[4] << 24);
@@ -480,7 +455,7 @@ bigfox.core.util.BFUtil.prototype.writeContentToByteArray = function (baseMessag
 
     //write property length
     //calculate number of property
-    var count = goog.array.count(Object.keys(baseMessage),function(el,index,arr){
+    var count = goog.array.count(Object.keys(baseMessage), function (el, index, arr) {
         var prefix = el.substr(0, 4);
         //var propertyName = key.substr(4);
         return this.getPropertyPrefix(prefix) != bigfox.core.util.BFUtil.NULL;
@@ -490,10 +465,10 @@ bigfox.core.util.BFUtil.prototype.writeContentToByteArray = function (baseMessag
     for (var key in baseMessage) {
         var prefix = key.substr(0, 4);
         var propertyName = key.substr(4);
-        var val = baseMessage[key];      
-        
+        var val = baseMessage[key];
 
-        if (PrefixMapping[prefix] && PrefixMapping[prefix] != bigfox.core.util.BFUtil.NULL ) {
+
+        if (PrefixMapping[prefix] && PrefixMapping[prefix] != bigfox.core.util.BFUtil.NULL) {
             //write property name
             buffer = this.writeString(propertyName, buffer);
             //write property type
@@ -501,74 +476,74 @@ bigfox.core.util.BFUtil.prototype.writeContentToByteArray = function (baseMessag
 
             //write property value
             switch (PrefixMapping[prefix]) {
-                case bigfox.core.util.BFUtil.NULL:
+                case bigfox.core.DataTypes.NULL:
                     buffer = this.writeInt(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.NOT_NULL:
+                case bigfox.core.DataTypes.NOT_NULL:
                     buffer = this.writeInt(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.INT:
+                case bigfox.core.DataTypes.INT:
                     buffer = this.writeInt(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.SHORT:
+                case bigfox.core.DataTypes.SHORT:
                     buffer = this.writeShort(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.BYTE:
+                case bigfox.core.DataTypes.BYTE:
                     buffer = this.writeByte(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.LONG:
+                case bigfox.core.DataTypes.LONG:
                     buffer = this.writeLong(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.FLOAT:
+                case bigfox.core.DataTypes.FLOAT:
                     buffer = this.writeFloat(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.DOUBLE:
+                case bigfox.core.DataTypes.DOUBLE:
                     buffer = this.writeDouble(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.BOOLEAN:
+                case bigfox.core.DataTypes.BOOLEAN:
                     buffer = this.writeBoolean(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.CHAR:
+                case bigfox.core.DataTypes.CHAR:
                     buffer = this.writeChar(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.STRING:
+                case bigfox.core.DataTypes.STRING:
                     buffer = this.writeString(val, buffer);
                     break;
-                case bigfox.core.util.BFUtil.OBJECT:
+                case bigfox.core.DataTypes.OBJECT:
                     buffer = this.writeContentToByteArray(val, buffer);
                     break;
 
                 //array
-                case bigfox.core.util.BFUtil.ARRAY_INT:
+                case bigfox.core.DataTypes.ARRAY_INT:
                     buffer = this.writeArrayInt(val, buffer);
-                    //buffer = this.writeArray(val, bigfox.core.util.BFUtil.INT, buffer);
+                    //buffer = this.writeArray(val, bigfox.core.DataTypes.INT, buffer);
                     break;
-                case bigfox.core.util.BFUtil.ARRAY_SHORT:
-                    buffer = this.writeArray(val, bigfox.core.util.BFUtil.SHORT, buffer);
+                case bigfox.core.DataTypes.ARRAY_SHORT:
+                    buffer = this.writeArray(val, bigfox.core.DataTypes.SHORT, buffer);
                     break;
-                case bigfox.core.util.BFUtil.ARRAY_BYTE:
-                    buffer = this.writeArray(val, bigfox.core.util.BFUtil.BYTE, buffer);
+                case bigfox.core.DataTypes.ARRAY_BYTE:
+                    buffer = this.writeArray(val, bigfox.core.DataTypes.BYTE, buffer);
                     break;
-                case bigfox.core.util.BFUtil.ARRAY_LONG:
-                    buffer = this.writeArray(val, bigfox.core.util.BFUtil.LONG, buffer);
+                case bigfox.core.DataTypes.ARRAY_LONG:
+                    buffer = this.writeArray(val, bigfox.core.DataTypes.LONG, buffer);
                     break;
-                case bigfox.core.util.BFUtil.ARRAY_FLOAT:
-                    buffer = this.writeArray(val, bigfox.core.util.BFUtil.FLOAT, buffer);
+                case bigfox.core.DataTypes.ARRAY_FLOAT:
+                    buffer = this.writeArray(val, bigfox.core.DataTypes.FLOAT, buffer);
                     break;
-                case bigfox.core.util.BFUtil.ARRAY_DOUBLE:
-                    buffer = this.writeArray(val, bigfox.core.util.BFUtil.DOUBLE, buffer);
+                case bigfox.core.DataTypes.ARRAY_DOUBLE:
+                    buffer = this.writeArray(val, bigfox.core.DataTypes.DOUBLE, buffer);
                     break;
-                case bigfox.core.util.BFUtil.ARRAY_BOOLEAN:
-                    buffer = this.writeArray(val, bigfox.core.util.BFUtil.BOOLEAN, buffer);
+                case bigfox.core.DataTypes.ARRAY_BOOLEAN:
+                    buffer = this.writeArray(val, bigfox.core.DataTypes.BOOLEAN, buffer);
                     break;
-                case bigfox.core.util.BFUtil.ARRAY_CHAR:
-                    buffer = this.writeArray(val, bigfox.core.util.BFUtil.CHAR, buffer);
+                case bigfox.core.DataTypes.ARRAY_CHAR:
+                    buffer = this.writeArray(val, bigfox.core.DataTypes.CHAR, buffer);
                     break;
-                case bigfox.core.util.BFUtil.ARRAY_STRING:
-                    buffer = this.writeArray(val, bigfox.core.util.BFUtil.STRING, buffer);
+                case bigfox.core.DataTypes.ARRAY_STRING:
+                    buffer = this.writeArray(val, bigfox.core.DataTypes.STRING, buffer);
                     break;
-                case bigfox.core.util.BFUtil.ARRAY_OBJECT:
-                    buffer = this.writeArray(val, bigfox.core.util.BFUtil.OBJECT, buffer);
+                case bigfox.core.DataTypes.ARRAY_OBJECT:
+                    buffer = this.writeArray(val, bigfox.core.DataTypes.OBJECT, buffer);
                     break;
             }
         }
@@ -643,7 +618,7 @@ bigfox.core.util.BFUtil.prototype.writeFloat = function (number, opt_buffer) {
 }
 bigfox.core.util.BFUtil.prototype.writeBoolean = function (bool, opt_buffer) {
     "use strict";
-    return this.writeByte(bool?1:0, opt_buffer);
+    return this.writeByte(bool ? 1 : 0, opt_buffer);
 }
 bigfox.core.util.BFUtil.prototype.writeChar = function (char, opt_buffer) {
     "use strict";
@@ -683,61 +658,61 @@ bigfox.core.util.BFUtil.prototype.writeArray = function (arr, element_type, opt_
         //write number of element in this array
         buffer = this.writeInt(arr.length);
     } else {
-        throw new Error('invalide arguments');
+        throw new Error('invalid arguments');
     }
     var fn;
-    var BFUtil =bigfox.core.util.BFUtil;
+    var bigfoxTypes = bigfox.core.DataTypes;
     switch (element_type) {
 
-        case BFUtil.NULL:
+        case bigfoxTypes.NULL:
             fn = this.writeInt;
             break;
-        case BFUtil.NOT_NULL:
+        case bigfoxTypes.NOT_NULL:
             fn = this.writeInt;
             break;
-        case BFUtil.INT:
+        case bigfoxTypes.INT:
             fn = this.writeInt;
             break;
-        case BFUtil.SHORT:
+        case bigfoxTypes.SHORT:
             fn = this.writeShort;
             break;
-        case BFUtil.BYTE:
+        case bigfoxTypes.BYTE:
             fn = this.writeByte;
             break;
-        case BFUtil.LONG:
+        case bigfoxTypes.LONG:
             fn = this.writeLong;
             break;
-        case BFUtil.FLOAT:
+        case bigfoxTypes.FLOAT:
             fn = this.writeFloat;
             break;
-        case BFUtil.DOUBLE:
+        case bigfoxTypes.DOUBLE:
             fn = this.writeDouble;
             break;
-        case BFUtil.BOOLEAN:
+        case bigfoxTypes.BOOLEAN:
             fn = this.writeBoolean;
             break;
-        case BFUtil.CHAR:
+        case bigfoxTypes.CHAR:
             fn = this.writeChar;
             break;
-        case BFUtil.STRING:
+        case bigfoxTypes.STRING:
             var self = this;
             arr.forEach(function (el) {
                 if (!el || el == null || el == 'undefined') {
-                    buffer = self.writeByte(BFUtil.NULL, buffer);
+                    buffer = self.writeByte(bigfoxTypes.NULL, buffer);
                 } else {
-                    buffer = self.writeByte(BFUtil.NOT_NULL, buffer);
+                    buffer = self.writeByte(bigfoxTypes.NOT_NULL, buffer);
                     buffer = self.writeString(el, buffer)
                 }
             });
             return buffer;
             break;
-        case BFUtil.OBJECT:
+        case bigfoxTypes.OBJECT:
             var self = this;
             arr.forEach(function (el) {
                 if (el == null || el == 'undefined') {
-                    buffer = self.writeByte(BFUtil.NULL, buffer);
+                    buffer = self.writeByte(bigfoxTypes.NULL, buffer);
                 } else {
-                    buffer = self.writeByte(BFUtil.NOT_NULL, buffer);
+                    buffer = self.writeByte(bigfoxTypes.NOT_NULL, buffer);
                     buffer = self.writeContentToByteArray(el, buffer)
                 }
             });

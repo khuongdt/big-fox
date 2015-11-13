@@ -7,8 +7,8 @@ goog.provide('bigfox.core.entity.ClientInfo');
 
 goog.require('goog.log');
 goog.require('goog.crypt');
+goog.require('bigfox.Global');
 
-goog.require('bigfox.core.util.BFUtil');
 
 bigfox.core.entity.ClientInfo = function () {
 
@@ -20,66 +20,65 @@ bigfox.core.entity.ClientInfo.DEVICE_WP = "wp";
 bigfox.core.entity.ClientInfo.DEVICE_WEB = "web";
 bigfox.core.entity.ClientInfo.DEVICE_DESKTOP = "desktop";
 
-bigfox.core.entity.ClientInfo.prototype._bfUtil = bigfox.core.util.BFUtil.getInstance();
 
 bigfox.core.entity.ClientInfo.prototype.getDevice = function () {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     return this[propertyPrefix + 'device'];
 }
 
 bigfox.core.entity.ClientInfo.prototype.setDevice = function (device) {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     this[propertyPrefix + 'device'] = device;
 }
 
 
 bigfox.core.entity.ClientInfo.prototype.getIMEI = function () {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     return this[propertyPrefix + 'imei'];
 }
 
 bigfox.core.entity.ClientInfo.prototype.setIMEI = function (imei) {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     this[propertyPrefix + 'imei'] = imei;
 }
 
 bigfox.core.entity.ClientInfo.prototype.getVersion = function () {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.INT);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.INT);
     return this[propertyPrefix + 'version'];
 }
 
 bigfox.core.entity.ClientInfo.prototype.setVersion = function (version) {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.INT);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.INT);
     this[propertyPrefix + 'version'] = version;
 }
 
 bigfox.core.entity.ClientInfo.prototype.getSessionId = function () {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     return this[propertyPrefix + 'sessionId'];
 }
 
 bigfox.core.entity.ClientInfo.prototype.setSessionId = function (sessionId) {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     this[propertyPrefix + 'sessionId'] = sessionId;
 }
 
 bigfox.core.entity.ClientInfo.prototype.getMetadata = function () {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     return this[propertyPrefix + 'metadata'];
 }
 
 bigfox.core.entity.ClientInfo.prototype.setMetadata = function (metadata) {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     this[propertyPrefix + 'metadata'] = metadata;
 }
 
 bigfox.core.entity.ClientInfo.prototype.getZone = function () {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     return this[propertyPrefix + 'zone'];
 }
 
 bigfox.core.entity.ClientInfo.prototype.setZone = function (zone) {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     this[propertyPrefix + 'zone'] = zone;
 }
 

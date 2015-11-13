@@ -12,7 +12,6 @@ goog.require('bigfox.Global');
 goog.require('bigfox.core.base.MessageOut');
 goog.require('bigfox.core.base.MessageIn');
 goog.require('bigfox.core.entity.ClientInfo');
-goog.require('bigfox.core.util.BFUtil');
 
 
 bigfox.core.base.CSClientInfo = function () {
@@ -45,9 +44,6 @@ goog.inherits(bigfox.core.base.CSClientInfo, bigfox.core.base.MessageOut);
  */
 //bigfox.core.base.CSClientInfo.prototype._clientInfo = undefined;
 
-bigfox.core.base.CSClientInfo.prototype._bfUtil = bigfox.core.util.BFUtil.getInstance();
-
-bigfox.core.base.CSClientInfo.prototype._bfUtil = bigfox.core.util.BFUtil.getInstance();
 
 bigfox.core.base.CSClientInfo.prototype.setSessionId = function (sid) {
 
@@ -57,7 +53,7 @@ bigfox.core.base.CSClientInfo.prototype.setSessionId = function (sid) {
 }
 
 bigfox.core.base.CSClientInfo.prototype.setClientInfo = function (clientInfo) {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.OBJECT);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.OBJECT);
     if (clientInfo instanceof  bigfox.core.entity.ClientInfo) {
         this[propertyPrefix + 'clientInfo'] = clientInfo;
     }
@@ -65,7 +61,7 @@ bigfox.core.base.CSClientInfo.prototype.setClientInfo = function (clientInfo) {
 
 
 bigfox.core.base.CSClientInfo.prototype.getClientInfo = function () {
-    var propertyPrefix = this._bfUtil.getPropertyPrefix(bigfox.core.util.BFUtil.OBJECT);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.OBJECT);
     return this[propertyPrefix + 'clientInfo'];
 }
 

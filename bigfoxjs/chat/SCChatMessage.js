@@ -25,11 +25,11 @@ goog.inherits(bigfox.example.SCChatMessage, bigfox.core.base.MessageOut);
 
 
 bigfox.example.SCChatMessage.prototype.getMessage = function () {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     return this[propertyPrefix + 'msg'];
 }
 
 bigfox.example.SCChatMessage.prototype.setMessage = function (value) {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.STRING);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.STRING);
     this[propertyPrefix + 'msg'] = value;
 }

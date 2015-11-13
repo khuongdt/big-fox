@@ -22,11 +22,11 @@ bigfox.core.base.SCInitSession = function(tag, name, isCore){
 goog.inherits(bigfox.core.base.SCInitSession, bigfox.core.base.MessageIn);
 
 bigfox.core.base.SCInitSession.prototype.getSessionStatus = function () {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.INT);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.INT);
     return this[propertyPrefix + 'sessionStatus'];
 }
 
 bigfox.core.base.SCInitSession.prototype.setSessionStatus = function (value) {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.INT);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.INT);
     this[propertyPrefix + 'sessionStatus'] = value;
 }

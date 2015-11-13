@@ -9,7 +9,7 @@ goog.require('goog.log');
 goog.require('bigfox.Global');
 goog.require('bigfox.core.base.MessageIn');
 goog.require('bigfox.core.base.MessageOut');
-goog.require('bigfox.core.util.BFUtil');
+
 
 bigfox.core.base.CSPing = function(){
     bigfox.core.base.CSPing.base(this,'constructor',CS_PING,'CS_PING',true);
@@ -20,12 +20,12 @@ bigfox.core.base.CSPing = function(){
 goog.inherits(bigfox.core.base.CSPing,bigfox.core.base.MessageOut);
 
 bigfox.core.base.CSPing.prototype.getClientTime = function () {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.LONG);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.LONG);
     return this[propertyPrefix + 'clientTime'];
 }
 
 
 bigfox.core.base.CSPing.prototype.setClientTime = function (value) {
-    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.util.BFUtil.LONG);
+    var propertyPrefix = bigfox.Global.getPropertyPrefix(bigfox.core.DataTypes.LONG);
     this[propertyPrefix + 'clientTime'] = value;
 }
