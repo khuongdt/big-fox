@@ -1,0 +1,37 @@
+{
+  "name": "big-fox",
+  "description": "Library for bigfox server using Google Closure & AngularJs",
+  "main": "app.js",
+  "authors": [
+    "khuongdt"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "livetube",
+    "live",
+    "stream",
+    "truc",
+    "tuyen"
+  ],
+  "homepage": "https://github.com/khuongdt/big-fox",
+  "moduleType": [
+    "es6",
+    "globals"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "angular": "~1.4.7",
+    "limejs": "https://github.com/digitalfruit/limejs.git"
+  },
+  "devDependencies": {
+    "promise": "~0.2.2"
+  }
+}

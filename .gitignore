@@ -1,2 +1,6 @@
+../*
+./.idea
 limejs
 limejs/*
+bower_components
+bower_components/*
