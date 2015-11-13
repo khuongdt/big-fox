@@ -2,9 +2,53 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"-->
+          <!--integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="-->
+          <!--crossorigin="anonymous">-->
+    <link rel="stylesheet" href="./css/bootstrap.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"
+          integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+            integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="../limejs/closure/closure/goog/base.js"></script>
+    <!--<script type="text/javascript" src="bigfoxjs.js"></script>-->
+    <script type="text/javascript" src="../bigfoxjs/core/lib/zlib_and_gzip.min.js"></script>
+    <script type="text/javascript" src="./js/live/livetube.js"></script>
     <title></title>
 </head>
-<body>
+<body onload="LiveTube.start();">
 
+    <div class="container">
+        <div id="login" class="col-md-6 col-md-offset-3"></div>
+    </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '../livetube/login.html',
+            success: function (data) {
+                $('#login').html(data);
+
+                $('#btnLogin').click(function(e){
+                    e.preventDefault();
+                    var name = $('#txtName').val();
+                    var pwd = $('#txtPassword').val();
+                    LiveTube.login(name,pwd);
+
+                });
+            }
+        });
+    })
+</script>
 </body>
 </html>

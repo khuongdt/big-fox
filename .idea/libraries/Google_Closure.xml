@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Google Closure" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/bower_components/limejs/closure" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/bower_components/limejs/closure" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

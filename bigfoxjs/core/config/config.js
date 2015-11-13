@@ -21,7 +21,7 @@ bigfox.core.config.Config = function(){
  * @const
  */
 bigfox.core.config.Config.ServerInfo = {
-    host:'localhost', //127.0.0.1
+    host:'192.168.1.172', //127.0.0.1
     port: '33332',
-    channel : 'livetube'
+    channel : ''
 }

@@ -26,7 +26,7 @@ bigfox.core.base.CSClientInfo = function () {
 
     var _clientInfo = new bigfox.core.entity.ClientInfo();
     _clientInfo.setDevice(bigfox.core.entity.ClientInfo.DEVICE_WEB);
-    _clientInfo.setZone('BigFoxServerChatExample');
+    _clientInfo.setZone('LiveTube');
     _clientInfo.setIMEI("");
     _clientInfo.setSessionId("");
     _clientInfo.setVersion(1);
@@ -65,6 +65,6 @@ bigfox.core.base.CSClientInfo.prototype.getClientInfo = function () {
     return this[propertyPrefix + 'clientInfo'];
 }
 
-bigfox.core.base.CSClientInfo.prototype.send = function (socket) {
+bigfox.core.base.CSClientInfo.prototype.send = function (connection) {
 
 }

@@ -8,8 +8,12 @@ goog.require('bigfox.Global');
 goog.require('bigfox.core.base.BaseMessage');
 goog.require('com.onesoft.livetube.base.LiveTag');
 
-com.onesoft.livetube.entity.CSLogin = function(){
+com.onesoft.livetube.entity.CSLogin = function(phone,password){
     com.onesoft.livetube.entity.CSLogin.base(this,'constructor',com.onesoft.livetube.base.LiveTag.CS_LOGIN, "CS_LOGIN", false );
+    if(goog.isDef(phone) && goog.isDef(password)){
+        this.setPhone(phone);
+        this.setPassword(password);
+    }
 }
 goog.inherits(com.onesoft.livetube.entity.CSLogin, bigfox.core.base.BaseMessage);
 

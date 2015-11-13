@@ -29,7 +29,8 @@
   "dependencies": {
     "bootstrap": "~3.3.5",
     "angular": "~1.4.7",
-    "limejs": "https://github.com/digitalfruit/limejs.git"
+    "limejs": "https://github.com/digitalfruit/limejs.git",
+    "kurento-utils-js": "https://github.com/Kurento/kurento-utils-js.git#~6.1.0"
   },
   "devDependencies": {
     "promise": "~0.2.2"

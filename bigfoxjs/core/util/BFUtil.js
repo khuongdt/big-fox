@@ -9,6 +9,7 @@ goog.require('goog.array');
 goog.require('goog.json');
 
 goog.require('bigfox.core.base.BaseMessage');
+goog.require('bigfox.core.DataTypes');
 
 
 bigfox.core.util.BFUtil = function () {
@@ -450,8 +451,6 @@ bigfox.core.util.BFUtil.prototype.writeHeaderToByteArray = function (baseMessage
 
 bigfox.core.util.BFUtil.prototype.writeContentToByteArray = function (baseMessage, opt_outputStream) {
     var buffer = opt_outputStream || [];
-
-    //var keys = Object.keys(baseMessage);
 
     //write property length
     //calculate number of property
